@@ -62,27 +62,9 @@ public class Equipo1Data {
         }
     }
 
-    public void eliminarEquipoLogico(String nombre) {
+    public void activarEquipo(Equipo1 equipo1) {
 
-        String sql = "UPDATE equipo1 SET estado = 0 WHERE nombre = ?";
-        PreparedStatement ps;
-        try {
-            ps = CONN.prepareStatement(sql);
-            ps.setString(1, nombre);
-
-            int res = ps.executeUpdate();
-            if (res == 1) {
-
-                System.out.println("El equipo se eliminó correctamente");
-                ps.close();
-            }
-        } catch (SQLException e) {
-            System.out.println("No se puede acceder a la tabla equipo: " + e);
-        }
-    }
-
-    public static void activarEquipo(Equipo1 equipo1) {
-        String sql = "UPDATE equipo1 SET estado= 1 WHERE WHERE nombre = ?";
+        String sql = "UPDATE equipo1 SET estado = 1 WHERE nombre = ?";
         PreparedStatement ps;
         try {
             ps = CONN.prepareStatement(sql);
@@ -95,6 +77,24 @@ public class Equipo1Data {
             }
         } catch (SQLException e) {
             System.out.println("No se pudo acceder a la tabla equipo: " + e);
+        }
+    }
+
+    public static void desactivarEquipo(Equipo1 equipo1) {
+        String sql = "UPDATE equipo1 SET estado= 0 WHERE nombre = ?";
+        PreparedStatement ps;
+        try {
+            ps = CONN.prepareStatement(sql);
+            ps.setString(1, equipo1.getNombre());
+
+            int res = ps.executeUpdate();
+            if (res == 1) {
+
+                System.out.println("El equipo se eliminó correctamente");
+                ps.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("No se puede acceder a la tabla equipo: " + e);
         }
     }
 
