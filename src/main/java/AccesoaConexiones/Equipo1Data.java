@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.JOptionPane;
 import Entidades.Equipo1;
 
 /**
@@ -24,25 +23,59 @@ public class Equipo1Data {
     }
 
     public static void crearEquipo(Equipo1 equipo1) {
-        String sql = "INSERT INTO `equipo1`( nombre, titulares, suplentes, directorTecnico, puntos, partidosJugados) "
-                + "VALUES(?,?,?,?,?,?)";
-
+        String sql = "INSERT INTO `equipo1`( nombre, titulares, suplentes, directorTecnico,  estado, puntos, partidosJugados)"
+                + "VALUES (?, ?, ?, ?, true, 0, 0)";
+        PreparedStatement ps;
         try {
-            PreparedStatement ps = CONN.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps = CONN.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, equipo1.getNombre());
-            ps.setInt(2, titulares.getCantCalorias());
+            ps.setInt(2, equipo1.getTitulares());
+            ps.setInt(3, equipo1.getSuplentes());
+            ps.setString(4, equipo1.getDirectorTecnico());
+
             ps.executeUpdate();
-            ResultSet resultado = ps.getGeneratedKeys();
-            if (resultado.next()) {
-
-                comida.setIdComida(resultado.getInt(1));
-                JOptionPane.showMessageDialog(null, "La comida fué creada con éxito");
-
-            }
+            ResultSet rs = ps.getGeneratedKeys();
+            System.out.println("Equipo creado con éxito");
             ps.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo conectar a la tabla comida " + ex.getMessage());
+        } catch (SQLException e) {
+            System.out.println("No se pudo conectar a la tabla equipo, error: " + e);
         }
+    }
 
+    public static void modificarPuntosPartidos(Equipo1 equipo1) {
+        String sql = "UPDATE equipo1 SET puntos = ?, partidosJugados = ? WHERE nombre = ?";
+        PreparedStatement ps;
+        try {
+            ps = CONN.prepareStatement(sql);
+
+            ps.setInt(1, equipo1.getPartidosJugados());
+            ps.setInt(2, equipo1.getPuntos());
+            ps.setString(3, equipo1.getNombre());
+
+            int resultado = ps.executeUpdate();
+            System.out.println("Se modificó los datos exitosamente");
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println("Error al conectar a la tabla equipo: " + e);
+        }
+    }
+
+    public void eliminarEquipoLogico(String nombre) {
+
+        String sql = "UPDATE equipo1 SET estado = 0 WHERE nombre = ?";
+        PreparedStatement ps;
+        try {
+            ps = CONN.prepareStatement(sql);
+            ps.setString(1, nombre);
+
+            int res = ps.executeUpdate();
+            if (res == 1) {
+
+                System.out.println("El equipo se eliminó correctamente");
+                ps.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("No se puede acceder a la tabla equipo: " + e);
+        }
     }
 }
