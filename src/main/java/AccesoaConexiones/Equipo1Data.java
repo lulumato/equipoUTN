@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import Entidades.Equipo1;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -77,5 +79,51 @@ public class Equipo1Data {
         } catch (SQLException e) {
             System.out.println("No se puede acceder a la tabla equipo: " + e);
         }
+    }
+
+    public static void activarEquipo(Equipo1 equipo1) {
+        String sql = "UPDATE equipo1 SET estado= 1 WHERE WHERE nombre = ?";
+        PreparedStatement ps;
+        try {
+            ps = CONN.prepareStatement(sql);
+            ps.setString(1, equipo1.getNombre());
+
+            int res = ps.executeUpdate();
+            if (res > 0) {
+                System.out.println("Se dió de alta el equipo correctamente");
+                ps.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("No se pudo acceder a la tabla equipo: " + e);
+        }
+    }
+
+    public static List<Equipo1> ListarEquipoPorNombre(String nombre) {
+        String sql = "SELECT * FROM equipo1 WHERE nombre = ? ORDER BY nombre ASC;";
+        List<Equipo1> equipo1lista = new ArrayList<>();
+
+        PreparedStatement ps;
+
+        try {
+            ps = CONN.prepareStatement(sql);
+            ps.setString(1, nombre);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Equipo1 equipo1 = new Equipo1();
+                equipo1.setNombre(rs.getString("nombre"));
+                equipo1.setTitulares(rs.getInt("titulares"));
+                equipo1.setSuplentes(rs.getInt("suplentes"));
+                equipo1.setDirectorTecnico(rs.getString("directorTecnico"));
+                equipo1.setEstado(rs.getBoolean("estado"));
+                equipo1.setPuntos(rs.getInt("puntos"));
+                equipo1.setPartidosJugados(rs.getInt("partidosJugados"));
+                equipo1lista.add(equipo1);
+            }
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println("No se pudo encontrar la conexion a la tabla equipo: " + e);
+        }
+        return equipo1lista;
     }
 }
