@@ -16,6 +16,8 @@ import java.util.logging.Logger;
  */
 public class Mavenproject1 {
 
+    private static final Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) {
         var varb = ConexionaDB.getConnection();
         try {
@@ -25,7 +27,6 @@ public class Mavenproject1 {
         }
         Equipo1 boca = new Equipo1("Boca Juniors", 11, 6, "Guardiola", true, 0, 0);
         boolean x = true;
-        Scanner sc = new Scanner(System.in);
 
         do {
             System.out.println("------------------------------------------------------------------------------");
@@ -53,7 +54,7 @@ public class Mavenproject1 {
 
             switch (opc) {
                 case "1":
-                    Equipo1Data.crearEquipo(boca);
+                    Crear();
                     break;
                 case "2":
                     boca.jugarPartido();
@@ -68,7 +69,7 @@ public class Mavenproject1 {
                     boca.estadistica();
                     break;
                 case "6":
-                    Equipo1Data.modificarPuntosPartidos(boca);
+                    modificar();
                     break;
                 case "7":
                     Equipo1Data.desactivarEquipo(boca);
@@ -82,7 +83,36 @@ public class Mavenproject1 {
                     throw new AssertionError();
             }
         } while (x == true);
+    }
+
+    public static void Crear() {
+        Equipo1 equipo1 = new Equipo1();
+        System.out.println("Escriba los datos a completar");
+        System.out.println("Nombre equipo: ");
+        equipo1.setNombre(sc.next());
+        System.out.println("Cantidad de titulares: ");
+        equipo1.setTitulares(sc.nextInt());
+        System.out.println("Cantidad de suplentes: ");
+        equipo1.setSuplentes(sc.nextInt());
+        System.out.println("Nombre DT: ");
+        equipo1.setDirectorTecnico(sc.next());
+        equipo1.setEstado(true);
+        equipo1.setPuntos(0);
+        equipo1.setPartidosJugados(0);
+        Equipo1Data.crearEquipo(equipo1);
 
     }
 
+    private static void modificar() {
+
+        System.out.println("Ingrese el nombre del equipo a modificar: ");
+        String nombre = sc.next();
+//Paciente paciente = PacienteData.buscarPacientePorDni
+        System.out.println("Ingrese cantidad de puntos: ");
+        // equipo1.setPuntos(sc.nextInt());
+        System.out.println("Ingrese cantidad de partidos: ");
+        //       equipo1.setPartidosJugados(sc.nextInt());
+        //  Equipo1Data.modificarPuntosPartidos(equipo1);
+
+    }
 }
