@@ -126,4 +126,35 @@ public class Equipo1Data {
         }
         return equipo1lista;
     }
+
+    public static Equipo1 buscarEquipoPorNombre(String nombre) {
+        String sql = "SELECT * FROM equipo1 WHERE nombre=?";
+
+        Equipo1 equipo = null;
+        PreparedStatement ps;
+
+        try {
+            ps = CONN.prepareStatement(sql);
+            ps.setString(1, nombre);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                equipo = new Equipo1();
+                equipo.setNombre(rs.getString("nombre"));
+                equipo.setTitulares(rs.getInt("titulares"));
+                equipo.setSuplentes(rs.getInt("suplentes"));
+                equipo.setDirectorTecnico(rs.getString("directorTecnico"));
+                equipo.setEstado(rs.getBoolean("estado"));
+                equipo.setPuntos(rs.getInt("puntos"));
+                equipo.setPartidosJugados(rs.getInt("partidosJugados"));
+            } else {
+                System.out.println("El equipo no existe");
+            }
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println("No se pudo conectar a la tabla equipo1, error: " + e.getMessage());
+        }
+
+        return equipo;
+    }
 }

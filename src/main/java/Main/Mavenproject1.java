@@ -72,7 +72,7 @@ public class Mavenproject1 {
                     modificar();
                     break;
                 case "7":
-                    Equipo1Data.desactivarEquipo(boca);
+                    eliminar();
                     break;
                 case "8":
                     System.out.println("Adios!!");
@@ -107,12 +107,21 @@ public class Mavenproject1 {
 
         System.out.println("Ingrese el nombre del equipo a modificar: ");
         String nombre = sc.next();
-//Paciente paciente = PacienteData.buscarPacientePorDni
+        Equipo1 equipo1 = Equipo1Data.buscarEquipoPorNombre(nombre);
+
         System.out.println("Ingrese cantidad de puntos: ");
-        // equipo1.setPuntos(sc.nextInt());
+        equipo1.setPuntos(sc.nextInt());
         System.out.println("Ingrese cantidad de partidos: ");
-        //       equipo1.setPartidosJugados(sc.nextInt());
-        //  Equipo1Data.modificarPuntosPartidos(equipo1);
+        equipo1.setPartidosJugados(sc.nextInt());
+        Equipo1Data.modificarPuntosPartidos(equipo1);
 
     }
+
+    public static void eliminar() {
+        System.out.println("Ingrese el nombre del equipo: ");
+        String nombre = sc.next();
+        Equipo1 equipo1 = Equipo1Data.buscarEquipoPorNombre(nombre);
+        Equipo1Data.desactivarEquipo(equipo1);
+    }
+
 }
