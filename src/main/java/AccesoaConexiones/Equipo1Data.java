@@ -62,7 +62,7 @@ public class Equipo1Data {
         }
     }
 
-    public void activarEquipo(Equipo1 equipo1) {
+    public static void activarEquipo(Equipo1 equipo1) {
 
         String sql = "UPDATE equipo1 SET estado = 1 WHERE nombre = ?";
         PreparedStatement ps;
@@ -127,7 +127,7 @@ public class Equipo1Data {
         return equipo1lista;
     }
 
-    public static Equipo1 buscarEquipoPorNombre(String nombre) {
+    public static Equipo1 buscarEquipoPorNombre(String nombreEquipo) {
         String sql = "SELECT * FROM equipo1 WHERE nombre=?";
 
         Equipo1 equipo = null;
@@ -135,7 +135,7 @@ public class Equipo1Data {
 
         try {
             ps = CONN.prepareStatement(sql);
-            ps.setString(1, nombre);
+            ps.setString(1, nombreEquipo);
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -156,5 +156,30 @@ public class Equipo1Data {
         }
 
         return equipo;
+    }
+
+    public static List<Equipo1> ListarEquipos() {
+        String sql = "SELECT * FROM equipo1 ORDER BY nombre ASC;";
+        List<Equipo1> equipo1lista = new ArrayList<>();
+
+        try (PreparedStatement ps = CONN.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Equipo1 equipo1 = new Equipo1();
+                equipo1.setNombre(rs.getString("nombre"));
+                equipo1.setTitulares(rs.getInt("titulares"));
+                equipo1.setSuplentes(rs.getInt("suplentes"));
+                equipo1.setDirectorTecnico(rs.getString("directorTecnico"));
+                equipo1.setEstado(rs.getBoolean("estado"));
+                equipo1.setPuntos(rs.getInt("puntos"));
+                equipo1.setPartidosJugados(rs.getInt("partidosJugados"));
+                equipo1lista.add(equipo1);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("No se pudo encontrar la conexión a la tabla equipo: " + e);
+        }
+
+        return equipo1lista;
     }
 }

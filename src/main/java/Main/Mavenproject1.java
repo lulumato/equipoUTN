@@ -6,6 +6,7 @@ package Main;
 import AccesoaConexiones.*;
 import Entidades.*;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +48,11 @@ public class Mavenproject1 {
             System.out.println("");
             System.out.println("7 - Eliminar equipo");
             System.out.println("");
-            System.out.println("8- Salir");
+            System.out.println("8 - Dar de alta equipo eliminado");
+            System.out.println("");
+            System.out.println("9 - Listar equipos");
+            System.out.println("");
+            System.out.println("10- Salir");
             System.out.println("");
             System.out.println("");
             String opc = sc.next();
@@ -75,6 +80,12 @@ public class Mavenproject1 {
                     eliminar();
                     break;
                 case "8":
+                    darDeAltaUnEquipoEliminado();
+                    break;
+                case "9":
+                    listar();
+                    break;
+                case "10":
                     System.out.println("Adios!!");
                     x = false;
                     break;
@@ -104,11 +115,9 @@ public class Mavenproject1 {
     }
 
     private static void modificar() {
-
         System.out.println("Ingrese el nombre del equipo a modificar: ");
         String nombre = sc.next();
         Equipo1 equipo1 = Equipo1Data.buscarEquipoPorNombre(nombre);
-
         System.out.println("Ingrese cantidad de puntos: ");
         equipo1.setPuntos(sc.nextInt());
         System.out.println("Ingrese cantidad de partidos: ");
@@ -124,4 +133,17 @@ public class Mavenproject1 {
         Equipo1Data.desactivarEquipo(equipo1);
     }
 
+    public static void darDeAltaUnEquipoEliminado() {
+        System.out.println("Ingrese el nombre del equipo: ");
+        String nombre = sc.next();
+        Equipo1 equipo1 = Equipo1Data.buscarEquipoPorNombre(nombre);
+        Equipo1Data.activarEquipo(equipo1);
+    }
+
+    public static void listar() {
+        List<Equipo1> equipoList = Equipo1Data.ListarEquipos();
+        for (Equipo1 equipo1 : equipoList) {
+            System.out.println(equipo1);
+        }
+    }
 }
