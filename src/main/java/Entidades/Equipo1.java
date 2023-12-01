@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Lenovo
+ * @author Lucia Matonti
  */
 public class Equipo1 extends EquipoTemplate {
 

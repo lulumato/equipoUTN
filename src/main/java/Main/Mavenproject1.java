@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Lenovo
+ * @author Lucia Matonti
  */
 public class Mavenproject1 {
 
@@ -36,9 +36,9 @@ public class Mavenproject1 {
             System.out.println("");
             System.out.println("1- Crear equipo");
             System.out.println("");
-            System.out.println("2 - Jugar Partido");
+            System.out.println("2 - Jugar partido");
             System.out.println("");
-            System.out.println("3 - Puntos Totales");
+            System.out.println("3 - Puntos totales");
             System.out.println("");
             System.out.println("4 - Cantidad de partidos jugados");
             System.out.println("");
@@ -62,16 +62,16 @@ public class Mavenproject1 {
                     Crear();
                     break;
                 case "2":
-                    boca.jugarPartido();
+                    jugar();
                     break;
                 case "3":
-                    boca.puntosTotales();
+                    puntos();
                     break;
                 case "4":
-                    boca.cantidadDePartidosJugados();
+                    partidosQueSeJugaron();
                     break;
                 case "5":
-                    boca.estadistica();
+                    estadisticasDeEquipo();
                     break;
                 case "6":
                     modificar();
@@ -144,6 +144,55 @@ public class Mavenproject1 {
         List<Equipo1> equipoList = Equipo1Data.ListarEquipos();
         for (Equipo1 equipo1 : equipoList) {
             System.out.println(equipo1);
+        }
+    }
+
+    public static void jugar() {
+        System.out.println("Ingrese el nombre del equipo:");
+        String nombreEquipo = sc.next();
+        Equipo1 equipo1 = Equipo1Data.buscarEquipoPorNombre(nombreEquipo);
+        if (equipo1 != null) {
+            System.out.println("Equipo encontrado: " + equipo1);
+
+            equipo1.jugarPartido();
+        } else {
+            System.out.println("No se encontró un equipo con ese nombre.");
+        }
+    }
+
+    public static void puntos() {
+        System.out.println("Ingrese el nombre del equipo:");
+        String nombreEquipo = sc.next();
+        Equipo1 equipo1 = Equipo1Data.buscarEquipoPorNombre(nombreEquipo);
+        if (equipo1 != null) {
+            System.out.println("Equipo encontrado: " + equipo1);
+            equipo1.puntosTotales();
+        } else {
+            System.out.println("No se encontró un equipo con ese nombre.");
+        }
+    }
+
+    public static void partidosQueSeJugaron() {
+        System.out.println("Ingrese el nombre del equipo:");
+        String nombreEquipo = sc.next();
+        Equipo1 equipo1 = Equipo1Data.buscarEquipoPorNombre(nombreEquipo);
+        if (equipo1 != null) {
+            System.out.println("Equipo encontrado: " + equipo1);
+            equipo1.cantidadDePartidosJugados();
+        } else {
+            System.out.println("No se encontró un equipo con ese nombre.");
+        }
+    }
+
+    public static void estadisticasDeEquipo() {
+        System.out.println("Ingrese el nombre del equipo:");
+        String nombreEquipo = sc.next();
+        Equipo1 equipo1 = Equipo1Data.buscarEquipoPorNombre(nombreEquipo);
+        if (equipo1 != null) {
+            System.out.println("Equipo encontrado: " + equipo1);
+            equipo1.estadistica();
+        } else {
+            System.out.println("No se encontró un equipo con ese nombre.");
         }
     }
 }

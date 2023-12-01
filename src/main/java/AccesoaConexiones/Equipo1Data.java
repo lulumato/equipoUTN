@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  *
- * @author Lenovo
+ * @author Lucia Matonti
  */
 public class Equipo1Data {
 
@@ -89,7 +89,6 @@ public class Equipo1Data {
 
             int res = ps.executeUpdate();
             if (res == 1) {
-
                 System.out.println("El equipo se eliminó correctamente");
                 ps.close();
             }
@@ -154,7 +153,6 @@ public class Equipo1Data {
         } catch (SQLException e) {
             System.out.println("No se pudo conectar a la tabla equipo1, error: " + e.getMessage());
         }
-
         return equipo;
     }
 
@@ -175,11 +173,9 @@ public class Equipo1Data {
                 equipo1.setPartidosJugados(rs.getInt("partidosJugados"));
                 equipo1lista.add(equipo1);
             }
-
         } catch (SQLException e) {
             System.out.println("No se pudo encontrar la conexión a la tabla equipo: " + e);
         }
-
         return equipo1lista;
     }
 }
